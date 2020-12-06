@@ -7,7 +7,7 @@ export const runner = (input: string): number => {
 
 if (require.main === module) {
   (async () => {
-    const input = await readFile(path.resolve(__dirname, './example.txt'));
+    const input = await readFile(path.resolve(__dirname, './input.txt'));
     const res = runner(input);
     console.log(`The result is: ${res}`);
   })();
