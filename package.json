@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "scripts": {
+    "scaffold": "ts-node scripts/scaffold.ts"
+  },
   "dependencies": {
     "@babel/preset-env": "^7.12.7",
     "@babel/preset-typescript": "^7.12.7",
