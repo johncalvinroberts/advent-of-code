@@ -17,7 +17,10 @@ describe('--- Day 1: Report Repair ---', () => {
       expect(res).toEqual(2);
     });
 
-    it('should work with the input', async () => {});
+    it('should work with the input', async () => {
+      const res = runner(input);
+      expect(res).toEqual(202);
+    });
   });
 
   describe('part two', () => {
