@@ -1,5 +1,5 @@
 import path from 'path';
-import { readFile } from '@utils';
+import { readFile } from '../utils';
 
 /**
   
@@ -29,29 +29,40 @@ const ROWS = 127;
 const COLUMNS = 7;
 
 const mappings: Record<string, string[]> = {
-  columns: ['F', 'B'],
-  rows: ['L', 'R'],
+  rows: ['F', 'B'],
+  columns: ['L', 'R'],
 };
 
-const search = (string: string, initial: number, map: string[]) => {
-  let stack = Array.from({ length: initial }, (_, i) => i);
+const search = (string: string, length: number, map: string[]): number => {
+  let stack = Array.from({ length }, (_, i) => i);
+
   for (let index = 0; index < string.length; index++) {
     const letter = string[index];
-    const halfIndex = Math.floor(stack.length / 2);
-    // const
+    const halfIndex = Math.ceil(stack.length / 2);
+    const firstHalf = stack.slice(0, halfIndex);
+    const secondHalf = stack.slice(halfIndex, stack.length);
+    const useFirst = map.indexOf(letter) === 0;
+    stack = useFirst ? firstHalf : secondHalf;
   }
+  return stack[0];
 };
 
 export const getSeatId = (boardingPass: string): number => {
-  console.log('boardingPass', boardingPass);
-  const rows = boardingPass.slice(0, 6);
-  const columns = boardingPass.slice(6);
-
-  return 0;
+  const rows = boardingPass.slice(0, 7);
+  const columns = boardingPass.slice(7);
+  const row = search(rows, ROWS, mappings.rows);
+  const column = search(columns, COLUMNS, mappings.columns);
+  return row * 8 + column;
 };
 
 export const runner = (input: string): number => {
-  return 0;
+  const boardingPasses: string[] = input.split('\n');
+  const ids = boardingPasses.map((item) => getSeatId(item));
+  const max = ids.reduce(
+    (memo, current) => (current > memo ? current : memo),
+    0,
+  );
+  return max;
 };
 
 if (require.main === module) {

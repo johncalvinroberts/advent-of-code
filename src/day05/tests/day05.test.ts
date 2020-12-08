@@ -18,9 +18,15 @@ describe('--- Day 5: Binary Boarding ---', () => {
       expect(seatId).toEqual(357);
     });
 
-    it('should work with the example', () => {});
+    it('should work with the example', () => {
+      const res = runner(example);
+      expect(res).toBe(820);
+    });
 
-    it('should work with the input', async () => {});
+    it('should work with the input', async () => {
+      const res = runner(input);
+      expect(res).toBe(906);
+    });
   });
 
   describe('part two', () => {
