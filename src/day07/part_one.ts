@@ -9,8 +9,30 @@ import { readFile } from '@utils';
  */
 
 export const runner = (input: string): number => {
-  const rules = input.split('\n');
-  console.log(rules);
+  const rules = input
+    .split('\n')
+    .reduce((memo: Record<string, unknown>, item: string) => {
+      let [color, childrenString] = item
+        .split('contain')
+        .map((item) => item.replace(/(bags|bag)/g, '').trim());
+      const children = childrenString
+        .replace('.', '')
+        .split(',')
+        .reduce((memo2: Record<string, number>, current: string) => {
+          current = current.trim();
+          if (current === 'no other') {
+            return memo2;
+          }
+          const [numberStr, ...colorStrings] = current.split(/\s/);
+          const number = parseInt(numberStr);
+          const color = colorStrings.join(' ');
+          memo2[color] = number;
+          return memo2;
+        }, {});
+      memo[color] = children;
+      return memo;
+    }, {});
+  console.dir(rules);
   return 0;
 };
 
