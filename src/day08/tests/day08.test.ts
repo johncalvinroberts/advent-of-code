@@ -24,8 +24,14 @@ describe('--- Day 8: Handheld Halting ---', () => {
   });
 
   describe('part two', () => {
-    it('should work with the example', () => {});
+    it('should work with the example', () => {
+      const res = partTwo(example);
+      expect(res).toEqual(8);
+    });
 
-    it('should work with the input', () => {});
+    it('should work with the input', () => {
+      const res = partTwo(input);
+      expect(res).toEqual(1174);
+    });
   });
 });
