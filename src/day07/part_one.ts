@@ -1,6 +1,8 @@
 import path from 'path';
 import { readFile } from '../utils';
 
+export type Rules = Record<string, Record<string, number>>;
+
 /**
  *
  * How many bag colors can eventually contain at least one shiny gold bag?
@@ -32,30 +34,32 @@ const getCanContainColor = (
   return canContain;
 };
 
-export const runner = (input: string): number => {
-  const rules = input
-    .split('\n')
-    .reduce((memo: Record<string, unknown>, item: string) => {
-      let [color, childrenString] = item
-        .split('contain')
-        .map((item) => item.replace(/(bags|bag)/g, '').trim());
-      const children = childrenString
-        .replace('.', '')
-        .split(',')
-        .reduce((memo2: Record<string, number>, current: string) => {
-          current = current.trim();
-          if (current === 'no other') {
-            return memo2;
-          }
-          const [numberStr, ...colorStrings] = current.split(/\s/);
-          const number = parseInt(numberStr);
-          const color = colorStrings.join(' ');
-          memo2[color] = number;
+export const transformRulesToDict = (input: string): Rules => {
+  return input.split('\n').reduce((memo: Rules, item: string) => {
+    let [color, childrenString] = item
+      .split('contain')
+      .map((item) => item.replace(/(bags|bag)/g, '').trim());
+    const children: Record<string, number> = childrenString
+      .replace('.', '')
+      .split(',')
+      .reduce((memo2: Record<string, number>, current: string) => {
+        current = current.trim();
+        if (current === 'no other') {
           return memo2;
-        }, {});
-      memo[color] = children;
-      return memo;
-    }, {});
+        }
+        const [numberStr, ...colorStrings] = current.split(/\s/);
+        const number: number = parseInt(numberStr);
+        const color: string = colorStrings.join(' ');
+        memo2[color] = number;
+        return memo2;
+      }, {});
+    memo[color] = children;
+    return memo;
+  }, {});
+};
+
+export const runner = (input: string): number => {
+  const rules = transformRulesToDict(input);
   let count = 0;
   for (const key of Object.keys(rules)) {
     const canContainShinyGold = getCanContainColor(rules, key, 'shiny gold');
