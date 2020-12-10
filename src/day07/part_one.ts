@@ -1,12 +1,36 @@
 import path from 'path';
-import { readFile } from '@utils';
+import { readFile } from '../utils';
 
 /**
  *
  * How many bag colors can eventually contain at least one shiny gold bag?
  *
- * aka, how many parent bags can have an ancestor (of any depth) that is shiny gold bag
+ * aka, how many parent color bags can have an ancestor (of any depth) that is shiny gold bag
  */
+
+const getCanContainColor = (
+  rules: Record<string, any>,
+  currentColor: string,
+  desiredColor: string,
+): boolean => {
+  let canContain = false;
+
+  const rule = rules[currentColor];
+  const { [desiredColor]: childPolicyForDesiredColor, ...rest } = rule;
+  if (childPolicyForDesiredColor && childPolicyForDesiredColor > 0) {
+    canContain = true;
+  }
+
+  for (const key of Object.keys(rest)) {
+    const childCanContain = getCanContainColor(rules, key, desiredColor);
+    if (childCanContain) {
+      canContain = true;
+      break;
+    }
+  }
+
+  return canContain;
+};
 
 export const runner = (input: string): number => {
   const rules = input
@@ -32,8 +56,12 @@ export const runner = (input: string): number => {
       memo[color] = children;
       return memo;
     }, {});
-  console.dir(rules);
-  return 0;
+  let count = 0;
+  for (const key of Object.keys(rules)) {
+    const canContainShinyGold = getCanContainColor(rules, key, 'shiny gold');
+    if (canContainShinyGold) count++;
+  }
+  return count;
 };
 
 if (require.main === module) {
