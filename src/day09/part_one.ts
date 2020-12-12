@@ -1,9 +1,10 @@
 import path from 'path';
 import { readFile } from '../utils';
 
-export const runner = (input: string, preambleSize: number = 25): number => {
+export const runner = (input: string, preambleSize: number = 25): number[] => {
   const list = input.split('\n');
   let badNumber = 0;
+  let badIndex = 0;
   for (let i = preambleSize; i < list.length; i++) {
     const item = parseInt(list[i]);
     const slice = list.slice(i - preambleSize, i);
@@ -21,10 +22,11 @@ export const runner = (input: string, preambleSize: number = 25): number => {
     }
     if (!match) {
       badNumber = item;
+      badIndex = i;
       break;
     }
   }
-  return badNumber;
+  return [badNumber, badIndex];
 };
 
 if (require.main === module) {

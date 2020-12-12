@@ -14,20 +14,28 @@ describe('--- Day 9: Encoding Error ---', () => {
   describe('part one', () => {
     it('should work with the example', () => {
       const preambleSize = 5;
-      const res = runner(example, preambleSize);
+      const [res] = runner(example, preambleSize);
       expect(res).toEqual(127);
     });
 
     it('should work with the input', async () => {
       const preambleSize = 25;
-      const res = runner(input, preambleSize);
+      const [res] = runner(input, preambleSize);
       expect(res).toEqual(22406676);
     });
   });
 
   describe('part two', () => {
-    it('should work with the example', () => {});
+    it('should work with the example', () => {
+      const preambleSize = 5;
+      const res = partTwo(example, preambleSize);
+      expect(res).toEqual(62);
+    });
 
-    it('should work with the input', () => {});
+    it('should work with the input', () => {
+      const preambleSize = 25;
+      const res = partTwo(input, preambleSize);
+      expect(res).toEqual(2942387);
+    });
   });
 });
