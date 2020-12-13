@@ -24,7 +24,10 @@ describe('--- Day 11: Seating System ---', () => {
   });
 
   describe('part two', () => {
-    it('should work with the example', () => {});
+    it('should work with the example', () => {
+      const res = partTwo(example);
+      expect(res).toEqual(26);
+    });
 
     it('should work with the input', () => {});
   });
