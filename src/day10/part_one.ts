@@ -1,5 +1,5 @@
 import path from 'path';
-import { readFile } from '@utils';
+import { readFile } from '../utils';
 
 /**
  * Your device works at the joltage of your highest adapter + 3.
@@ -14,7 +14,28 @@ import { readFile } from '@utils';
  */
 
 export const runner = (input: string): number => {
-  return 0;
+  const adapters = input.split('\n').map((item) => parseInt(item));
+  let previousJoltage = 0;
+  let unusedAdapters = [...adapters].sort((a, b) => a - b);
+  let counts = [0, 1];
+
+  while (unusedAdapters.length > 0) {
+    for (let i = 0; i < unusedAdapters.length; i++) {
+      const diff = unusedAdapters[i] - previousJoltage;
+      if (diff > 0 && diff < 4) {
+        previousJoltage = unusedAdapters[i];
+        if (diff === 1) {
+          counts[0]++;
+        }
+        if (diff === 3) {
+          counts[1]++;
+        }
+        unusedAdapters.splice(i, 1);
+        break;
+      }
+    }
+  }
+  return counts[0] * counts[1];
 };
 
 if (require.main === module) {

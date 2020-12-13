@@ -17,7 +17,10 @@ describe('--- Day 10: Adapter Array ---', () => {
       expect(res).toEqual(220);
     });
 
-    it('should work with the input', async () => {});
+    it('should work with the input', async () => {
+      const res = runner(input);
+      expect(res).toEqual(2240);
+    });
   });
 
   describe('part two', () => {
