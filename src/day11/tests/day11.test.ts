@@ -12,9 +12,15 @@ describe('--- Day 11: Seating System ---', () => {
   });
 
   describe('part one', () => {
-    it('should work with the example', () => {});
+    it('should work with the example', () => {
+      const res = runner(example);
+      expect(res).toEqual(37);
+    });
 
-    it('should work with the input', async () => {});
+    it('should work with the input', async () => {
+      const res = runner(input);
+      expect(res).toEqual(2222);
+    });
   });
 
   describe('part two', () => {
